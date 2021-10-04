@@ -13,3 +13,7 @@ IP = env.str("ip")  # Тоже str, но для айпи адреса хоста
 QIWI_TOKEN = env.str('QIWI_TOKEN')
 WALLET_QIWI = env.str('WALLET')
 QIWI_PUBKEY = env.str('QIWI_P_PUB')
+
+
+# Параметры для работы с оплатой QIWI
+YOUKASSA_TOKEN = env.str('YOUKASSA_TOKEN')

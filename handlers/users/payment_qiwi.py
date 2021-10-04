@@ -1,38 +1,16 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters import Command
 from aiogram.utils.markdown import hcode, hlink
 
 from data import config
 from data.items import items
-from keyboards.inline.purchases_keyboard import buy_keyboard, paid_keyboard
+from keyboards.inline.purchases_keyboard import paid_keyboard
 from loader import dp
+from states.test_states import Purchase
 from utils.misc.qiwi import Payment, NoPaymentFound, NotEnoughMoney
 
 
-@dp.message_handler(Command('qiwi'))
-async def show_items(message: types.Message):
-    caption = """
-Название продукта: {title}
-<i>Описание:</i>
-{description}
-
-<u>Цена:</u> {price:.2f} <b>RUB</b>
-"""
-
-    for item in items:
-        await message.answer_photo(
-            photo=item.photo_link,
-            caption=caption.format(
-                title=item.title,
-                description=item.description,
-                price=item.price,
-            ),
-            reply_markup=buy_keyboard(item_id=item.id)
-        )
-
-
-@dp.callback_query_handler(text_contains='buy')
+@dp.callback_query_handler(text_contains='qiwi', state=Purchase.Payment)
 async def create_invoice(call: types.CallbackQuery, state: FSMContext):
     await call.answer(cache_time=60)
     item_id = call.data.split(':')[-1]
@@ -53,15 +31,15 @@ async def create_invoice(call: types.CallbackQuery, state: FSMContext):
         ]),
         reply_markup=paid_keyboard)
 
-    await state.set_state('qiwi')
+    await Purchase.Payment_QIWI.set()
     await state.update_data(payment=payment)
 
-    @dp.callback_query_handler(text='cancel', state='qiwi')
+    @dp.callback_query_handler(text='cancel', state=Purchase.Payment_QIWI)
     async def cancel_payment(call: types.CallbackQuery, state: FSMContext):
         await call.message.edit_text('Отменено')
         await state.finish()
 
-    @dp.callback_query_handler(text='paid', state='qiwi')
+    @dp.callback_query_handler(text='paid', state=Purchase.Payment_QIWI)
     async def approve_payment(call: types.CallbackQuery, state: FSMContext):
         data = await state.get_data()
         payment: Payment = data.get('payment')
