@@ -10,7 +10,7 @@ from loader import dp
 from utils.misc.qiwi import Payment, NoPaymentFound, NotEnoughMoney
 
 
-@dp.message_handler(Command('items'))
+@dp.message_handler(Command('qiwi'))
 async def show_items(message: types.Message):
     caption = """
 Название продукта: {title}
