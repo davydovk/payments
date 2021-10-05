@@ -25,7 +25,7 @@ F_Line_33 = Item(
 Полная комплектация с мощными бензиновыми двигателями 2 x Volvo V8 430 CE/DPS, 860 л.с., 
 максимальная скорость 45 узлов.
 """,
-    price=1,
+    price=10,
     photo_link=r'https://fairline-russia.com/uploads/2021/05/17-52-44_20210524_2b3a8606.jpg'
 )
 

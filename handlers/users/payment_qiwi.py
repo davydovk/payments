@@ -4,7 +4,7 @@ from aiogram.utils.markdown import hcode, hlink
 
 from data import config
 from data.items import items
-from keyboards.inline.purchases_keyboard import paid_keyboard
+from keyboards.inline.payments_keyboard import paid_keyboard
 from loader import dp
 from states.test_states import Purchase
 from utils.misc.qiwi import Payment, NoPaymentFound, NotEnoughMoney

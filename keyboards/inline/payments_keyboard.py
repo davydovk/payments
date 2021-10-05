@@ -7,8 +7,9 @@ def buy_keyboard(item_id):
 
     qiwi_btn = InlineKeyboardButton(text='Qiwi', callback_data=f'qiwi:{item_id}')
     youkassa_btn = InlineKeyboardButton(text='ЮKassa', callback_data=f'youkassa:{item_id}')
+    sberbank_btn = InlineKeyboardButton(text='Сбербанк', callback_data=f'sberbank:{item_id}')
 
-    keyboard.add(qiwi_btn, youkassa_btn)
+    keyboard.add(qiwi_btn, youkassa_btn, sberbank_btn)
 
     return keyboard
 
